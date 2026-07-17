@@ -132,4 +132,10 @@ class Event extends Model
         return $this->hasMany(Order::class);
     }
 
+    //uji kompetensi
+    public function lokasis()
+    {
+        return $this->belongsTo(Lokasi::class);
+    }
+
 }

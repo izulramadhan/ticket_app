@@ -106,7 +106,7 @@
                             <td class="font-semibold">{{ $event->judul }}</td>
                             <td>{{ $event->kategori->nama ?? '-' }}</td>
                             <td>{{ $event->tanggal_waktu->format('d M Y, H:i') }}</td>
-                            <td>{{ $event->lokasi }}</td>
+                            <td>{{ $event->lokasis->nama_lokasi ?? '-' }}</td>
                             <td>
                                 @if($event->status === 'Upcoming')
                                     <span class="badge badge-info text-white">Upcoming</span>

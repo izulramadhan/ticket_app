@@ -64,13 +64,28 @@
                         </div>
 
                         <!-- Lokasi -->
-                        <div class="space-y-2">
+                        <!-- <div class="space-y-2">
                             <label class="block">
                                 <span class="text-sm font-medium text-gray-700">Lokasi</span>
                                 <span class="text-error text-red-500">*</span>
                             </label>
                             <input type="text" name="lokasi" value="{{ old('lokasi') }}" required placeholder="Masukkan lokasi event" class="input input-bordered w-full @error('lokasi') input-error @enderror" />
+                        </div> -->
+                        <div class="space-y-2">
+                            <label class="block">
+                                <span class="text-sm font-medium text-gray-700">Lokasi</span>
+                                <span class="text-error text-red-500">*</span>
+                            </label>
+                            <select name="lokasi" required class="select select-bordered w-full @error('lokasi') select-error @enderror">
+                                <option value="" disabled selected>Pilih Lokasi</option>
+                                @foreach($locations as $location)
+                                    <option value="{{ $location->id }}" {{ old('lokasi') == $location->id ? 'selected' : '' }}>
+                                        {{ $location->nama_lokasi }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
+
 
                         <!-- Tanggal & Waktu -->
                         <div class="space-y-2">
