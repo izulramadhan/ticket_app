@@ -86,10 +86,10 @@ class Event extends Model
         }
 
         if (!empty($this->gambar) && \Illuminate\Support\Facades\Storage::disk('public')->exists($this->gambar)) {
-            return \Illuminate\Support\Facades\Storage::disk('public')->url($this->gambar);
+            return asset('storage/' . $this->gambar);
         }
 
-        return \Illuminate\Support\Facades\Storage::disk('public')->url('konser.jpg');
+        return asset('storage/konser.jpg');
     }
 
     public function hasSales(): bool
