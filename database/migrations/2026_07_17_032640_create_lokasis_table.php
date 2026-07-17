@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->text('nama_lokasi');
             $table->string('aktif')->default('Y');
+            $table->integer('flag_delete')->default(0);
             $table->timestamps();
         });
     }

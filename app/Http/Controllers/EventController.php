@@ -6,8 +6,10 @@ use App\Models\Event;
 use App\Models\Kategori;
 use App\Http\Requests\EventFormRequest;
 use App\Models\Lokasi;
+use App\Models\Tiket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Laravel\Prompts\Title;
 
 class EventController extends Controller
 {
@@ -16,7 +18,8 @@ class EventController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Event::with(['kategori', 'tikets','lokasis']);
+        $query = Event::with(['kategori', 'tikets'])
+        ->leftjoin('lokasis','lokasis.id','=','lokasi');
 
         if ($request->filled('kategori_id')) {
             $query->where('kategori_id', $request->kategori_id);
@@ -44,7 +47,7 @@ class EventController extends Controller
     public function create()
     {
         $categories = Kategori::all();
-        $locations = Lokasi::all();
+        $locations = Lokasi::where('flag_delete',0)->where('aktif','Y')->get();
 
         return view('pages.admin.events.create', compact('categories','locations'));
     }
@@ -96,7 +99,7 @@ class EventController extends Controller
     public function edit(Event $event)
     {
         $categories = Kategori::all();
-        $locations = Lokasi::all();
+        $locations = Lokasi::where('flag_delete',0)->where('aktif','Y')->get();
         $event->load('tikets');
         $hasSales = $event->hasSales();
 
@@ -359,4 +362,15 @@ class EventController extends Controller
         return redirect()->route('admin.events.index')
             ->with('success', "$deletedCount event berhasil dihapus.");
     }
+
+    public function updatestok(Request $request, $id)
+{
+    // Tiket:select('stok')->where('id',$id)->first();
+    
+    // dd($request->nama_qty);
+    // proses update stok
+
+    return redirect()->back()
+        ->with('success', 'Tiket Berhasil Dibeli!');
+}
 }

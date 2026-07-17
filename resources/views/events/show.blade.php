@@ -96,14 +96,38 @@
                                         @endif
                                     </div>
 
-                                    <button class="btn btn-primary w-full {{ $tiket->stok !== null && $tiket->stok <= 0 ? 'btn-disabled' : '' }}"
-                                            {{ $tiket->stok !== null && $tiket->stok <= 0 ? 'disabled' : '' }}>
+                                   
                                         @if ($tiket->stok !== null && $tiket->stok <= 0)
+                                        <button class="btn btn-primary w-full {{ $tiket->stok !== null && $tiket->stok <= 0 ? 'btn-disabled' : '' }}"
+                                        {{ $tiket->stok !== null && $tiket->stok <= 0 ? 'disabled' : '' }}>
                                             Habis Terjual
+                                        </button>
                                         @else
-                                            Beli Sekarang
+                                        <button class="btn btn-primary w-full2" onclick="openEditModal(this)" data-id="{{ $tiket->id }}" data-harga="{{ $tiket->harga }}">Beli Sekarang
+
+                                        </button>
                                         @endif
-                                    </button>
+                                        <script>
+                                        function openEditModal(button) {
+                                            const id = button.dataset.id;
+                                            const harga = button.dataset.harga;
+                                            const form = document.querySelector('#edit_modal form');
+
+                                            document.getElementById("edit_id").value = id;
+                                            document.getElementById("edit_harga").value = harga;
+
+                                            // Set action dengan parameter ID
+                                            form.action = `{{ url('/admin/events/ticket') }}/${id}`
+
+                                            edit_modal.showModal();
+                                        }
+
+                                        function hitungTotal(val){
+                                            var harga = document.getElementById('edit_harga').value;
+                                            var q = val * harga;
+                                            document.getElementById('edit_jumlah').value=q;
+                                        }
+                                        </script>
                                 </div>
                             </div>
                         @endforeach
@@ -147,4 +171,34 @@
             </a>
         </div>
     </div>
+
+    <!-- Edit Category Modal With Retrieve ID -->
+    <dialog id="edit_modal" class="modal">
+        <form method="POST" class="modal-box">
+            @csrf
+            @method('PUT')
+
+            <h3 class="text-lg font-bold mb-4">Edit Lokasi</h3>
+            <div class="form-control w-full mb-4">
+                <label class="label mb-2">
+                    <span class="label-text">Jumlah Beli</span>
+                </label>
+                <br>
+                <input type="hidden" class="input input-bordered w-full" id="edit_id" name="edit_id" readonly/>
+                <input type="number" placeholder="Masukkan Jumlah" class="input input-bordered w-fulreadonlyl" value="1" id="edit_qty" name="nama_qty" onkeyup="hitungTotal(this.value)" />
+            </div>
+             <div class="form-control w-full mb-4">
+                <label class="label mb-2">
+                    <span class="label-text">Total Harga</span>
+                </label>
+                <input type="hidden" placeholder="Masukkan Jumlah" class="input input-bordered w-full" value="0" id="edit_harga" name="edit_harga" readonly/>
+                <input type="text" placeholder="Masukkan Jumlah" class="input input-bordered w-full" value="0" id="edit_jumlah" name="edit_jumlah" disabled/>
+            </div>
+            <div class="modal-action">
+                <button class="btn btn-primary" type="submit">Simpan</button>
+                <button class="btn" onclick="edit_modal.close()" type="reset">Batal</button>
+            </div>
+        </form>
+    </dialog>
+    
 </x-app-layout>

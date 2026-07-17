@@ -8,7 +8,8 @@ class Lokasi extends Model
 {
     protected $fillable = [
         'nama_lokasi',
-        'aktif'
+        'aktif',
+        'flag_delete',
 
     ];
     public function events()

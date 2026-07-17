@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\LokasiController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -14,6 +15,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/events/{event}', [EventController::class, 'show'])->name('events.show');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/lokasis', [LokasiController::class, 'index'])->middleware(['auth', 'verified'])->name('lokasis');
 
 // Category routes (admin)
 Route::prefix('admin')->name('categories.')->middleware(['auth', 'verified'])->group(function () {
@@ -21,6 +23,14 @@ Route::prefix('admin')->name('categories.')->middleware(['auth', 'verified'])->g
     Route::post('/categories', [CategoryController::class, 'store'])->name('store');
     Route::put('/categories/{id}', [CategoryController::class, 'update'])->name('update');
     Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('destroy');
+});
+
+// Category routes (admin)
+Route::prefix('admin')->name('lokasis.')->middleware(['auth', 'verified'])->group(function () {
+    Route::get('/lokasis', [LokasiController::class, 'index'])->name('index');
+    Route::post('/lokasis', [LokasiController::class, 'store'])->name('store');
+    Route::put('/lokasis/{id}', [LokasiController::class, 'update'])->name('update');
+    Route::delete('/lokasis/{id}', [LokasiController::class, 'destroy'])->name('destroy');
 });
 
 // Event routes (admin)
@@ -35,6 +45,8 @@ Route::prefix('admin')->name('admin.events.')->middleware(['auth', 'verified'])-
     Route::get('/events/{event}/edit', [EventController::class, 'edit'])->name('edit');
     Route::put('/events/{event}', [EventController::class, 'update'])->name('update');
     Route::delete('/events/{event}', [EventController::class, 'destroy'])->name('destroy');
+    Route::put('/events/ticket/{event}', [EventController::class, 'updatestok'])->name('updatestok');
+    
 });
 
 Route::middleware('auth')->group(function () {
