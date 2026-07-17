@@ -97,7 +97,17 @@ class EventController extends Controller
         $event->load('tikets');
         $hasSales = $event->hasSales();
 
-        return view('pages.admin.events.edit', compact('event', 'categories', 'hasSales'));
+        $ticketsData = $event->tikets->map(function($t) {
+            return [
+                'id' => $t->id,
+                'tipe' => $t->tipe,
+                'harga' => $t->harga,
+                'stok' => $t->stok,
+                'has_sales' => $t->orders()->exists()
+            ];
+        });
+
+        return view('pages.admin.events.edit', compact('event', 'categories', 'hasSales', 'ticketsData'));
     }
 
     /**

@@ -180,16 +180,7 @@
 
     <!-- JavaScript for Preview and Dynamic Tickets -->
     <script>
-        // Existing tickets configuration
-        const existingTickets = @json($event->tikets->map(function($t) {
-            return [
-                'id' => $t->id,
-                'tipe' => $t->tipe,
-                'harga' => $t->harga,
-                'stok' => $t->stok,
-                'has_sales' => $t->orders()->exists()
-            ];
-        }));
+        const existingTickets = @json($ticketsData);
 
         document.addEventListener('DOMContentLoaded', function () {
             // Cropper.js & Image Preview logic

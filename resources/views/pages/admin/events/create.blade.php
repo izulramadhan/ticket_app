@@ -151,25 +151,6 @@
     <!-- JavaScript for Preview and Dynamic Tickets -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // 1. Image Preview logic
-            const gambarInput = document.getElementById('gambar_input');
-            const previewContainer = document.getElementById('image_preview_container');
-            const previewImage = document.getElementById('image_preview');
-
-            gambarInput.addEventListener('change', function () {
-                const file = this.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function (e) {
-                        previewImage.src = e.target.result;
-                        previewContainer.classList.remove('hidden');
-                    }
-                    reader.readAsDataURL(file);
-                } else {
-                    previewContainer.classList.add('hidden');
-                    previewImage.src = '#';
-                }
-            });
 
             // 2. Dynamic Ticket Forms logic
             const container = document.getElementById('tickets_container');
